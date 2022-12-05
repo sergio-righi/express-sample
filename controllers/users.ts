@@ -1,4 +1,4 @@
-import { UserModel } from "@server/models";
+import { UserModel } from "@/models";
 import { BaseController } from "./base.controller";
 
 class UsersController extends BaseController {

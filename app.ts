@@ -1,41 +1,58 @@
-import mongoose from "mongoose";
-import express from 'express';
-import cors from 'cors';
+import cors from 'cors'
+import express from 'express'
+import mongoose from 'mongoose'
+import compression from 'compression'
 
-import { env } from '@server/utils';
-import { AuthRoute, MailRoute, TokenRoute, UserRoute } from "@server/routes";
+import { env } from '@/utils'
+import { UserRoute } from '@/routes'
 
 class App {
-  public express: express.Application;
+  public express: any
 
   constructor() {
-    this.express = express();
-    this.setDatabase();
-    this.setConfiguration();
-    this.setRoutes();
+    this.express = express()
+
+    this.setDatabase()
+    this.setConfiguration()
+    this.setRoutes()
+
+    this.getMemoryUsage()
+  }
+
+  getMemoryUsage() {
+    const used = process.memoryUsage()
+    for (let key in used) {
+      console.log(
+        `${key} ${Math.round((used[key] / 1024 / 1024) * 100) / 100} MB`
+      )
+    }
   }
 
   setDatabase() {
-    mongoose.connect(String(env.MONGODB_URI), {
-      useCreateIndex: true,
+    mongoose.connect(env.get('mongoose'), {
+      useUnifiedTopology: true,
       useNewUrlParser: true,
-      useFindAndModify: false,
-      useUnifiedTopology: true
     })
     const databaseConnection = mongoose.connection
-    databaseConnection.on('error', console.error.bind(console, 'MongoDB Connection error'))
+    databaseConnection.on(
+      'error',
+      console.error.bind(console, 'MongoDB Connection error')
+    )
   }
 
   setConfiguration() {
-    this.express.use(cors())
-    this.express.use(express.json({ limit: "10mb" }))
+    this.express.use(express.json({ limit: '10mb' }))
+    this.express.use(
+      cors({
+        credentials: true,
+        origin: env.get('cors')
+      })
+    )
+    this.express.use(compression())
     this.express.use(express.urlencoded({ extended: true }))
   }
 
   setRoutes() {
-    this.express.use('/auth', AuthRoute)
-    this.express.use('/mails', MailRoute)
-    this.express.use('/tokens', TokenRoute)
     this.express.use('/users', UserRoute)
   }
 }
