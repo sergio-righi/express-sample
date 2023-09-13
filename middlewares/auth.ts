@@ -6,7 +6,7 @@ import { Request, Response, NextFunction } from 'express'
 export function apiKey(req: Request, res: Response, next: NextFunction) {
   try {
     const authorization = req.headers.authorization
-    const secretKey = env.get('api')
+    const secretKey = env.API_KEY;
     if (authorization && authorization === secretKey) next()
     else throw new Error('401')
   } catch (err) {
@@ -27,7 +27,7 @@ export function jwt(req: Request, _: Response, next: NextFunction) {
 
   let decodedToken: any;
   try {
-    decodedToken = auth.verify(token, String(env.get('jwt')));
+    decodedToken = auth.verify(token, String(env.JWT_KEY));
   } catch (err: any) {
     err.statusCode = 500;
     throw err;

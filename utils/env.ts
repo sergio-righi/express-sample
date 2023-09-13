@@ -2,7 +2,8 @@ import dotenv from 'dotenv'
 import convict from 'convict';
 
 dotenv.config();
-const env = convict({
+
+export default convict({
   env: {
     default: 'dev',
     env: 'NODE_ENV',
@@ -38,7 +39,3 @@ const env = convict({
     env: 'CORS_ORIGIN'
   }
 }).validate()
-
-export {
-  env,
-}
