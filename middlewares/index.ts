@@ -1,2 +1,1 @@
-export { default as auth } from './auth'
-export { default as validation } from './validation'
+export { apiKey, jwt } from './auth'

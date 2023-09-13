@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 import convict from 'convict';
 
 dotenv.config();
-export default convict({
+const env = convict({
   env: {
     default: 'dev',
     env: 'NODE_ENV',
@@ -23,6 +23,11 @@ export default convict({
     default: '',
     env: 'API_KEY',
   },
+  jwt: {
+    doc: 'Secret key for signing requests',
+    default: '',
+    env: 'JWT_KEY',
+  },
   mongoose: {
     doc: 'Mongoose connection string',
     default: 'mongodb://127.0.0.1:27017/vue-nuxt-sample',
@@ -33,3 +38,7 @@ export default convict({
     env: 'CORS_ORIGIN'
   }
 }).validate()
+
+export {
+  env,
+}

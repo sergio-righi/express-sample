@@ -1,1 +1,1 @@
-export { default as UsersController } from './users';
+export { ExampleController, ExampleControllerInstance } from "./example"

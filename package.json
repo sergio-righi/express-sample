@@ -1,19 +1,20 @@
 {
-  "name": "serverside",
+  "name": "express-sample",
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "dev": "set NODE_ENV=dev && ts-node index.ts",
-    "start": "set NODE_ENV=production && node --optimize_for_size --max-old-space-size=4096 -- node_modules/ts-node/dist/bin -P tsconfig.json index.ts"
+    "dev": "ts-node index.ts",
+    "start": "node -P tsconfig.json index.ts"
   },
   "keywords": [],
   "dependencies": {
+    "compression": "^1.7.4",
+    "convict": "^6.2.3",
     "cors": "latest",
     "dotenv": "^16.0.1",
-    "convict": "^6.2.3",
     "express": "latest",
-    "compression": "^1.7.4",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "latest"
   },
   "devDependencies": {

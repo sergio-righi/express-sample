@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-export default interface ModelType {
+export interface MongooseModel {
   mongooseModel: mongoose.Model<any>;
   all(): Promise<any[]>;
   find<T>(id: string): Promise<T>;

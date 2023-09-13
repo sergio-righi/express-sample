@@ -1,1 +1,1 @@
-export { default as UserModel } from './user';
+export { ExampleModel, ExampleModelInstance, ExampleSchema, IExample } from "./example";

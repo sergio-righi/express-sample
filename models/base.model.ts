@@ -1,10 +1,10 @@
-import mongoose from "mongoose";
+import { Model } from "mongoose";
 
 export class BaseModel {
-  public model: mongoose.Model<any>
+  public model: Model<any>
   protected returnNew = { useFindAndModify: false, new: true };
 
-  constructor(model: mongoose.Model<any>) {
+  constructor(model: Model<any>) {
     this.model = model
   }
 

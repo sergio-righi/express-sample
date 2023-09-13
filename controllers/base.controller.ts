@@ -1,9 +1,9 @@
-import mongoose from 'mongoose'
+import { Document } from 'mongoose'
 import { Request, Response } from 'express'
-import { ModelType } from '@/interfaces';
+import { MongooseModel } from 'types';
 
 export class BaseController {
-  protected readonly model: ModelType;
+  protected readonly model: MongooseModel;
   protected readonly useModReturnNew = { useFindAndModify: false, new: true }
 
   constructor(model: any) {
@@ -36,7 +36,7 @@ export class BaseController {
   }
 
   create(res: Response, req: Request, msg = 'Failed to create') {
-    this.model.create<mongoose.Document>(req.body).then((doc: mongoose.Document) => this.json(doc, res)).catch(err => { this.error(err, res, msg) })
+    this.model.create<Document>(req.body).then((doc: Document) => this.json(doc, res)).catch(err => { this.error(err, res, msg) })
   }
 
   update(res: Response, req: Request, msg = `Failed to update document`) {

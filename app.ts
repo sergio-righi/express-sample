@@ -3,8 +3,8 @@ import express from 'express'
 import mongoose from 'mongoose'
 import compression from 'compression'
 
-import { env } from '@/utils'
-import { UserRoute } from '@/routes'
+import { env } from 'utils'
+import { ExampleRouter } from "routes";
 
 class App {
   public express: any
@@ -53,7 +53,7 @@ class App {
   }
 
   setRoutes() {
-    this.express.use('/users', UserRoute)
+    this.express.use('/example', ExampleRouter)
   }
 }
 
