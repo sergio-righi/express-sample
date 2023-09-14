@@ -1,9 +1,9 @@
 import cors from 'cors'
 import express from 'express'
-import mongoose from 'mongoose'
 import compression from 'compression'
 
 import { env } from 'utils'
+import { Db } from 'config'
 import { ExampleRouter } from "routes";
 
 class App {
@@ -12,14 +12,15 @@ class App {
   constructor() {
     this.express = express()
 
-    this.setDatabase()
-    this.setConfiguration()
-    this.setRoutes()
+    Db.connect().then(() => {
+      this.#setConfiguration();
+      this.#setRoute();
+    });
 
-    this.getMemoryUsage()
+    this.#getMemoryUsage()
   }
 
-  getMemoryUsage() {
+  #getMemoryUsage() {
     const used = process.memoryUsage()
     for (let key in used) {
       console.log(
@@ -28,31 +29,19 @@ class App {
     }
   }
 
-  setDatabase() {
-    mongoose.connect(env.get('mongoose'), {
-      useUnifiedTopology: true,
-      useNewUrlParser: true,
-    })
-    const databaseConnection = mongoose.connection
-    databaseConnection.on(
-      'error',
-      console.error.bind(console, 'MongoDB Connection error')
-    )
-  }
-
-  setConfiguration() {
+  #setConfiguration() {
     this.express.use(express.json({ limit: '10mb' }))
     this.express.use(
       cors({
         credentials: true,
-        origin: env.get('cors')
+        origin: String(env.CORS_ORIGIN)
       })
     )
     this.express.use(compression())
     this.express.use(express.urlencoded({ extended: true }))
   }
 
-  setRoutes() {
+  #setRoute() {
     this.express.use('/example', ExampleRouter)
   }
 }
